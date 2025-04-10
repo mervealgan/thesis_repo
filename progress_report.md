@@ -16,9 +16,27 @@ Mis à jour le : 10 avril 2025
 CORPUS
 ----------------------------------------------------
 
+1. 250 phrases originales extraites de Wikipedia. 
+  - Critères de sélection des phrases :  
+    - Une phrase aléatoire par article (Wikipedia-API)
+    - Longueur entre 95 et 250 caractères 
+  - Métadonnées enregistrées :  
+    - Texte de la phrase  
+    - Titre de l’article  
+    - URL de la page  
+    - Catégories Wikipedia associées
 
-
-
+2. 250 versions simplifiées manuellement.
+- 9 méthodes de simplification appliquées :
+   - Réduction de la longueur des phrases par découpage (30)
+   - Élimination des informations non essentielles (30)
+   - Élimination des parenthèses et incises (30)
+   - Transformation des propositions relatives (30)
+   - Propositions de formes actives au lieu de passives (25)
+   - Propositions de structures positives au lieu de négatives (25)
+   - Substitution de mots complexes (25)
+   - Simplification des clauses complexes (25)
+   - Omission des mots redondants (25)
 
 ----------------------------------------------------
 PACKAGE `readability` (FR)
@@ -293,7 +311,10 @@ Expérimentation 6 :
 
 
 
+Notes : # TODO
 
+- Utilisation of 9 methods in the evaluation? 
+- Thesis pdf versions will be added as the modifications done, to the folder of thesis_versions_pdf.
 
 
 
