@@ -1,6 +1,6 @@
 ====================================================
 RAPPORT DE PROGRÈS DU MÉMOIRE – MERVE ALGAN
-Mis à jour le : 8 avril 2025
+Mis à jour le : 10 avril 2025
 ====================================================
 
 
@@ -17,6 +17,9 @@ CORPUS
 ----------------------------------------------------
 
 
+
+
+
 ----------------------------------------------------
 PACKAGE `readability` (FR)
 ----------------------------------------------------
@@ -27,7 +30,7 @@ PACKAGE `readability` (FR)
 - Formules écartées de l’extraction (non adaptées au français) : `Kincaid`, `ARI`, `Coleman-Liau`, `FleschReadingEase`, `GunningFogIndex`, `SMOGIndex`, `DaleChallIndex`, `complex_words_dc`, `paragraphs`
 - Variables linguistiques ajoutées : `basicwords_fr`, `tobeverb_fr`, `auxverb_fr`, `conjunction_fr`, `preposition_fr`, `pronoun_fr`, `subordination_fr`, `article_fr`, `interrogative_fr`, `nominalization_fr`  
 - Comptage des syllabes basé sur `pyphen` (hyphénation FR) (https://pyphen.org/)
-- Résultat : 28 caractéristiques extraites (stockées sous `diff_read`) pour utilisation dans les données d’entrée du modèle : `LIX`, `RIX`, `REL`, `KandelMoles`, `Mesnager`, `characters_per_word`, `syll_per_word`, `words_per_sentence` `sentences_per_paragraph`, `type_token_ratio`, `directspeech_ratio`, `characters`, `syllables`, `words`, `wordtypes`, `sentences`, `long_words`, `complex_words`, `complex_words_mes`, `tobeverb`, `auxverb`, `conjunction`, `preposition`, `nominalization`, `subordination`, `article`, `pronoun`, `interrogative`
+- Résultat : 28 caractéristiques extraites (stockées sous `diff_read`) pour utilisation dans les données d’entrée du modèle : `LIX`, `RIX`, `REL`, `KandelMoles`, `Mesnager`, `characters_per_word`, `syll_per_word`, `words_per_sentence`, `sentences_per_paragraph`, `type_token_ratio`, `directspeech_ratio`, `characters`, `syllables`, `words`, `wordtypes`, `sentences`, `long_words`, `complex_words`, `complex_words_mes`, `tobeverb`, `auxverb`, `conjunction`, `preposition`, `nominalization`, `subordination`, `article`, `pronoun`, `interrogative`
 
 
 **Info sur les ajouts :**
@@ -98,6 +101,74 @@ def count_syllables_fr(word):
 ENQUÊTE
 ----------------------------------------------------
 
+### 1. Première enquête 
+
+- Plateforme : site web personnalisé (Flask + SQLite)
+  - Lien : https://evaluerlisibilite.pythonanywhere.com/  
+  - Code source : `survey_app.py` (# TODO à lier)
+- Fonctionnement :
+  - Affichage aléatoire de 20 paires de phrases (originale + simplifiée)
+  - Échelle de lisibilité (1 à 7) :
+    1 = Très facile à lire, 2 = Facile à lire, 3 = Assez facile à lire, 4 = Neutre,  
+    5 = Assez difficile à lire, 6 = Difficile à lire, 7 = Très difficile à lire
+  - Quota : max. 5 votes par phrase (distribution équilibrée)
+  - Stockage en base de données avec timestamps
+- Participants : 67 participants (natif ou C1 minimum en français)
+- Données collectées : 1205 évaluations sur 250 paires
+- Résultat :  
+  - Moyenne des scores par phrase (MOS)  
+  - Gain de lisibilité = score_simplifiée - score_originale
+  - Ce gain est utilisé comme variable cible dans le modèle de régression.
+
+- Statut :  
+  - Utilisée dans les expérimentations actuelles  
+  - Limites : pas d’identifiant unique, pas de vérification du niveau, consignes trop ouvertes
+
+- Considérations pour conserver l’enquête existante :
+  - L’information sur le niveau requis (natif ou C1) était indiquée dans l’introduction du site :  
+    *“Cette enquête s'adresse aux personnes de langue maternelle française ou ayant un niveau de français C1 ou plus.”*
+
+  - L’affichage aléatoire de 20 paires par session, combiné à une limite de 5 votes maximum par phrase, rend peu probable qu’un même participant annote plusieurs fois les mêmes phrases :
+
+```python
+# TODO Add the name of the code
+c.execute("SELECT id, sentences, simplified FROM allsents WHERE votes < 5 ORDER BY RANDOM() LIMIT 20")
+```
+
+  
+### 2. Nouvelle enquête (à décider)
+
+- Améliorations prévues :
+  - Identifiant pseudonyme ou unique pour chaque participant
+  - Question fermée sur le niveau/langue maternelle
+  - Instructions plus claires
+  - Échelle à rediscuter (5 ou 7 points)
+
+- Format envisagé : 
+  - Option 1 : 1 seule question par paire : 
+    "Pensez-vous que la phrase est devenue plus facile ou plus difficile à lire ?"
+    - Option 1.a : Échelle 7 points :  (`-3` à `+3`)
+    Beaucoup plus facile – Plus facile – Un peu plus facile – Pareil – Un peu plus difficile – Plus difficile – Beaucoup plus difficile
+    - Option 1.b : Échelle 5 points:  (`-2` à `+2`)
+    Beaucoup plus facile – Plus facile – Pareil – Plus difficile – Beaucoup plus difficile
+
+  - Option 2 : 2 questions séparées (une par phrase) :
+    "Veuillez évaluer la lisibilité de chaque phrase ci-dessous."
+    - Option 2.a : Échelle 7 points : (`1` à `7`)  
+      1 = Très facile, 2 = Facile, 3 = Assez facile, 4 = Moyenne,  
+      5 = Assez difficile, 6 = Difficile, 7 = Très difficile  
+      → Gain de lisibilité est calculé : simplifiée - originale → plage possible : `-6` à `+6`
+    - Option 2.b : Échelle 5 points : (`1` à `5`)  
+      1 = Très facile, 2 = Facile, 3 = Moyenne, 4 = Difficile, 5 = Très difficile  
+      → Gain de lisibilité : simplifiée - originale → plage : `-4` à `+4`
+
+- Statut :
+  - L’enquête ne sera lancée qu’une fois tous les éléments suivants validés :  
+    - la décision définitive de la refaire,  
+    - la confirmation que le pipeline de modélisation est compatible avec les nouvelles annotations,  
+    - la validation de la nouvelle version de l’enquête par Mme Todirascu.
+
+
 ----------------------------------------------------
 MODÈLE
 ----------------------------------------------------
@@ -124,7 +195,7 @@ MODÈLE
 - PCA, réduction à 250 dimensions
 
 **diff_read**  
-- 28 caractéristiques linguistiques et de lisibilité (package `readability` adapté au FR) (diff : simple - original)
+- 28 caractéristiques linguistiques et de lisibilité (package `readability` adapté au FR) (diff : simplifiée - original)
 - Exemple :  
   `diff_LIX`, `diff_RIX`, `diff_REL`, `diff_KandelMoles`, `diff_Mesnager`, `diff_long_words`, `diff_complex_words`, `diff_nominalization`, `diff_subordination`, etc.
 
@@ -138,82 +209,93 @@ MODÈLE
   `hidden_layer_sizes=(64, 32)`, `activation='tanh'`, `solver='adam'`,  
   `alpha=0.5`, `learning_rate_init=0.001`, `max_iter=300`,  
   `early_stopping=True`, `random_state=42`
+- MLPRegressor (2)
+  `hidden_layer_sizes=(128, 64, 32)`, `activation='relu'`, `solver='adam'`, `alpha=0.001`, `batch_size=32`, `learning_rate='adaptive'`, `learning_rate_init=0.001`, `max_iter=500`, `early_stopping=True`, `validation_fraction=0.2`, `random_state=42`
 - RandomForestRegressor
   `n_estimators=100`, `random_state=42`
 - XGBRegressor
   `n_estimators=100`, `learning_rate=0.1`, `random_state=42`
-
+- XGBRegressor (2)
+  `n_estimators=300`, `learning_rate=0.03`, `max_depth=6`, `min_child_weight=2`, `gamma=0.1`, `subsample=0.8`, `colsample_bytree=0.8`, `reg_alpha=0.01`, `reg_lambda=1`, `random_state=42`
 
 ### Expérimentations :
 
-Exp. 1 :
+Expérimentation 1 :
 
-Données d’entrée : 
+Données d’entrée : (diff_emb_camem_mean_pooling) + (diff_read)  
+(code : `exp_flipped_without_coref.py`) ## TODO
 
-(diff_emb_camem_mean_pooling) + (diff_read)
+| Modèle         | MAE    | RMSE   | Pearson | Spearman |
+|----------------|--------|--------|---------|----------|
+| MLP            | 0.5518 | 0.6772 | 0.4896  | 0.4799   |
+| Random Forest  | 0.5298 | 0.7252 | 0.3314  | 0.3864   |
+| XGBoost        | 0.5624 | 0.7081 | 0.4161  | 0.4398   |
 
-| Modèle         | MAE   | RMSE  | Pearson | Spearman |
-|----------------|-------|-------|---------|----------|
-| MLP            | 0.642 | 0.827 | 0.372   | 0.346    |
-| Random Forest  | 0.532 | 0.728 | 0.318   | 0.378    |
-| XGBoost        | 0.562 | 0.708 | 0.416   | 0.440    |
+-------
 
+Expérimentation 2 :
 
+Données d’entrée : (diff_emb_mean_pooling) + (diff_read) + (diff_coref)  
+(code : `exp_flipped_meanpoolwithoutpca.py`) # TODO
 
-Exp. 2 : 
+| Modèle         | MAE    | RMSE   | Pearson | Spearman |
+|----------------|--------|--------|---------|----------|
+| MLP            | 0.5534 | 0.7348 | 0.3163  | 0.2385   |
+| Random Forest  | 0.5310 | 0.7313 | 0.3059  | 0.3716   |
+| XGBoost        | 0.5624 | 0.7081 | 0.4161  | 0.4398   |
 
-Données d’entrée : 
+------
 
-(diff_emb_camem_mean_pooling) + (diff_read) + (diff_coref)
+Expérimentation 3 :
 
-| Modèle         | MAE   | RMSE  | Pearson | Spearman |
-|----------------|-------|-------|---------|----------|
-| MLP            | 0.564 | 0.726 | 0.459   | 0.473    |
-| Random Forest  | 0.531 | 0.731 | 0.310   | 0.383    |
-| XGBoost        | 0.562 | 0.708 | 0.416   | 0.440    |
+Données d’entrée : (diff_emb_mean_pooling_pca) + (diff_read) + (diff_coref)  
+(code : `exp_flipped_meanpool_pca.py`)
 
+| Modèle         | MAE    | RMSE   | Pearson | Spearman |
+|----------------|--------|--------|---------|----------|
+| MLP            | 0.5822 | 0.7578 | 0.4512  | 0.4693   |
+| Random Forest  | 0.5083 | 0.6893 | 0.4401  | 0.4980   |
+| XGBoost        | 0.5714 | 0.7673 | 0.2282  | 0.2761   |
 
+------
 
-Exp. 3 :
-
-Données d’entrée : 
-
-(diff_emb_camem_mean_pooling_pca) + (diff_read) + (diff_coref)
-
-| Modèle         | MAE   | RMSE  | Pearson | Spearman |
-|----------------|-------|-------|---------|----------|
-| MLP            | 0.520 | 0.668 | 0.490   | 0.510    |
-| Random Forest  | 0.508 | 0.689 | 0.440   | 0.498    |
-| XGBoost        | 0.571 | 0.767 | 0.228   | 0.276    |
-
-
-Exp.4 :
-
-Données d’entrée : 
+Expérimentation 4 :
 
 (diff_emb_camem_att_pooling_pca) + (diff_read) + (diff_coref)
 
-| Modèle         | MAE   | RMSE  | Pearson | Spearman |
-|----------------|-------|-------|---------|----------|
-| MLP            | 0.522 | 0.669 | 0.487   | 0.502    |
-| Random Forest  | 0.484 | 0.674 | 0.497   | 0.551    |
-| XGBoost        | 0.555 | 0.770 | 0.239   | 0.341    |
+| Modèle         | MAE    | RMSE   | Pearson | Spearman |
+|----------------|--------|--------|---------|----------|
+| MLP            | 0.5802 | 0.7553 | 0.4544  | 0.4565   |
+| Random Forest  | 0.4840 | 0.6744 | 0.4967  | 0.5505   |
+| XGBoost        | 0.5551 | 0.7696 | 0.2394  | 0.3407   |
+
+---
+
+Expérimentation 5 : (Meilleurs résultats actuels) ********  
+
+Données d’entrée :   
+  
+(diff_emb_camem_max_pooling_pca) + (diff_read) + (diff_coref)  
+
+| Modèle        | MAE    | RMSE   | Pearson | Spearman |
+|---------------|--------|--------|---------|----------|
+| MLP           | 0.5934 | 0.7701 | 0.4440  | 0.4411   |
+| MLP (2)       | 0.5599 | 0.6900 | 0.4948  | 0.5408   |
+| Random Forest | 0.4745 | 0.6514 | 0.5576  | 0.6164   |
+| XGBoost       | 0.4960 | 0.6856 | 0.4416  | 0.5131   |
+| XGBoost (2)   | 0.4589 | 0.6237 | 0.6166  | 0.6395   |
+
+--------
+
+Expérimentation 6 :
+
+— Approche ensemble (en cours)
 
 
-Exp.5 : (Meilleurs résultats actuels) ********
 
-Données d’entrée : 
 
-(diff_emb_camem_max_pooling_pca) + (diff_read) + (diff_coref)
 
-| Modèle         | MAE   | RMSE  | Pearson | Spearman |
-|----------------|-------|-------|---------|----------|
-| MLP            | 0.524 | 0.669 | 0.488   | 0.502    |
-| Random Forest  | 0.475 | 0.651 | 0.558   | 0.616    |
-| XGBoost        | 0.496 | 0.686 | 0.442   | 0.513    |
 
-Exp. 6 :
 
-— Approche ensemble *(en cours)*
 
 
