@@ -59,6 +59,7 @@ La formule de Mesnager :
 Source : (François, T. (2011). An analysis of a French corpus for readability assessment. (https://cental.uclouvain.be/team/tfrancois/articles/Francois2011-thesis.pdf)).
 
 ```python
+# readability/__init__.py
 def Mesnager(complex_words_mes, words, sentences):
     return (2 / 3) * (complex_words_mes / words) * 100 + (1 / 3) * words / sentences
 ```
@@ -66,6 +67,7 @@ def Mesnager(complex_words_mes, words, sentences):
 → Formule Mesnager utilise complex_words_mes, c’est-à-dire les mots absents de la liste de basicwords_fr (liste de Catach) :
 
 ```python
+# readability/__init__.py
 if token.lower() not in basicwords:
     complex_words_mes += 1
 ```
@@ -73,9 +75,8 @@ if token.lower() not in basicwords:
 
 Source : (CATACH, N. (1985). Les listes orthographiques de base du français. Nathan, Paris) :
 
-
 ```python
-# 3558 MFW French; CATACH, N. (1985). Les listes orthographiques de base du français. Nathan, Paris
+# readability/langdata.py
 basicwords_fr = frozenset("""
 A À ABANDONNER ABBÉ ABORD ABSENCE ABSOLU ABSOLUMENT ACCENT ACCEPTER ACCIDENT ACCIDENTS 
 ACCOMPAGNAIENT ACCOMPAGNAIT ACCOMPAGNER ACCOMPLIR ACCOMPLIT ACCORD ACCORDER ACCORDS 
@@ -89,6 +90,7 @@ REL Score :
 Source : Projet READI-LREC22 (https://github.com/nicolashernandez/READI-LREC22/blob/main/readability/stats/common_scores.py) : 
 
 ```python
+# readability/__init__.py
 def REL_score(syllables, words, sentences):
 	return 207 - 1.015 * (words / sentences) - 73.6 * (syllables / words)
 ```
@@ -98,6 +100,7 @@ Kandel-Moles :
 Source : CRAN: Package koRpus - R Project (https://search.r-project.org/CRAN/refmans/koRpus/html/readability-methods.html) :
 
 ```python
+# readability/__init__.py
 def KandelMoles(syllables, words, sentences):
 	return 209 - 1.15 * (words / sentences) - 68 * (syllables / words)
 ```
@@ -109,6 +112,7 @@ Source :
 (https://spacy.io/universe/project/spacy_syllables)
 
 ```python
+# readability/__init__.py
 def count_syllables_fr(word):
 	import pyphen
 	dic = pyphen.Pyphen(lang='fr')
