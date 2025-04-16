@@ -170,26 +170,25 @@ c.execute("SELECT id, sentences, simplified FROM allsents WHERE votes < 5 ORDER 
 - Format envisagé : 
   - Option 1 : 1 seule question par paire : 
     "Pensez-vous que la phrase est devenue plus facile ou plus difficile à lire ?"
-    - Option 1.a : Échelle 7 points :  (`-3` à `+3`)
-    Beaucoup plus facile – Plus facile – Un peu plus facile – Pareil – Un peu plus difficile – Plus difficile – Beaucoup plus difficile
+    - **Option 1.a : Échelle 7 points :  (`-3` à `+3`) - Option actuellement privilégiée**
+      - Beaucoup plus facile – Plus facile – Un peu plus facile – Pareil – Un peu plus difficile – Plus difficile – Beaucoup plus difficile
     - Option 1.b : Échelle 5 points:  (`-2` à `+2`)
-    Beaucoup plus facile – Plus facile – Pareil – Plus difficile – Beaucoup plus difficile
+      - Beaucoup plus facile – Plus facile – Pareil – Plus difficile – Beaucoup plus difficile
 
   - Option 2 : 2 questions séparées (une par phrase) :
     "Veuillez évaluer la lisibilité de chaque phrase ci-dessous."
     - Option 2.a : Échelle 7 points : (`1` à `7`)  
-      1 = Très facile, 2 = Facile, 3 = Assez facile, 4 = Moyenne,  
+        - 1 = Très facile, 2 = Facile, 3 = Assez facile, 4 = Moyenne,  
       5 = Assez difficile, 6 = Difficile, 7 = Très difficile  
       → Gain de lisibilité est calculé : simplifiée - originale → plage possible : `-6` à `+6`
     - Option 2.b : Échelle 5 points : (`1` à `5`)  
-      1 = Très facile, 2 = Facile, 3 = Moyenne, 4 = Difficile, 5 = Très difficile  
+        - 1 = Très facile, 2 = Facile, 3 = Moyenne, 4 = Difficile, 5 = Très difficile  
       → Gain de lisibilité : simplifiée - originale → plage : `-4` à `+4`
 
 - Statut :
   - L’enquête ne sera lancée qu’une fois tous les éléments suivants validés :  
-    - la décision définitive de la refaire,  
-    - la confirmation que le pipeline de modélisation est compatible avec les nouvelles annotations,  
-    - la validation de la nouvelle version de l’enquête par Mme Todirascu.
+    - le pipeline de modélisation est compatible avec les nouvelles annotations,  
+    - la nouvelle version de l’enquête est validée par Mme Todirascu.
 
 
 ----------------------------------------------------
@@ -271,11 +270,11 @@ Expérimentation 1 :
 Données d’entrée :
 (diff_emb_camem_mean_pooling) + (X_read)
 
-| Modèle         | MAE    | RMSE   | Pearson | Spearman |
-|----------------|--------|--------|---------|----------|
-| MLP            | 0.5518 | 0.6772 | 0.4896  | 0.4799   |
-| Random Forest  | 0.5298 | 0.7252 | 0.3314  | 0.3864   |
-| XGBoost        | 0.5624 | 0.7081 | 0.4161  | 0.4398   |
+| Modèle        | MAE (↓)    | RMSE (↓)   | Pearson (↑) | Spearman (↑) |
+|---------------|------------|------------|-------------|--------------|
+| MLP           | 0.5518     | **0.6772** | **0.4896**  | **0.4799**   |
+| Random Forest | **0.5298** | 0.7252     | 0.3314      | 0.3864       |
+| XGBoost       | 0.5624     | 0.7081     | 0.4161      | 0.4398       |
 
 - Code source : [train_models_exp_1.py](py_scripts/train_models_exp_1.py)  
 - Résultats : [exp1_results.csv](data/exp1_results.csv)
@@ -287,11 +286,11 @@ Expérimentation 2 :
 Données d’entrée : 
 (diff_emb_camem_mean_pooling) + (X_read) + (X_coref)
 
-| Modèle         | MAE    | RMSE   | Pearson | Spearman |
-|----------------|--------|--------|---------|----------|
-| MLP            | 0.5534 | 0.7348 | 0.3163  | 0.2385   |
-| Random Forest  | 0.5310 | 0.7313 | 0.3059  | 0.3716   |
-| XGBoost        | 0.5624 | 0.7081 | 0.4161  | 0.4398   |
+| Modèle        | MAE (↓)    | RMSE (↓)   | Pearson (↑) | Spearman (↑) |
+|---------------|------------|------------|-------------|--------------|
+| MLP           | 0.5534     | 0.7348     | 0.3163      | 0.2385       |
+| Random Forest | **0.5310** | 0.7313     | 0.3059      | 0.3716       |
+| XGBoost       | 0.5624     | **0.7081** | **0.4161**  | **0.4398**   |
 
 - Code source : [train_models_exp_2.py](py_scripts/train_models_exp_2.py)  
 - Résultats : [exp2_results.csv](data/exp2_results.csv)
@@ -303,11 +302,11 @@ Expérimentation 3 :
 Données d’entrée : 
 (diff_emb_camem_mean_pooling_pca) + (X_read) + (X_coref)  
 
-| Modèle         | MAE    | RMSE   | Pearson | Spearman |
-|----------------|--------|--------|---------|----------|
-| MLP            | 0.5822 | 0.7578 | 0.4512  | 0.4693   |
-| Random Forest  | 0.5083 | 0.6893 | 0.4401  | 0.4980   |
-| XGBoost        | 0.5714 | 0.7673 | 0.2282  | 0.2761   |
+| Modèle        | MAE (↓)    | RMSE (↓)   | Pearson (↑) | Spearman (↑) |
+|---------------|------------|------------|-------------|--------------|
+| MLP           | 0.5822     | 0.7578     | **0.4512**  | 0.4693       |
+| Random Forest | **0.5083** | **0.6893** | 0.4401      | **0.4980**   |
+| XGBoost       | 0.5714     | 0.7673     | 0.2282      | 0.2761       |
 
 - Code source : [train_models_exp_3.py](py_scripts/train_models_exp_3.py)  
 - Résultats : [exp3_results.csv](data/exp3_results.csv)
@@ -319,11 +318,11 @@ Expérimentation 4 :
 Données d’entrée :
 (diff_emb_camem_att_pooling_pca) + (X_read) + (X_coref)
 
-| Modèle         | MAE    | RMSE   | Pearson | Spearman |
-|----------------|--------|--------|---------|----------|
-| MLP            | 0.5802 | 0.7553 | 0.4544  | 0.4565   |
-| Random Forest  | 0.4840 | 0.6744 | 0.4967  | 0.5505   |
-| XGBoost        | 0.5551 | 0.7696 | 0.2394  | 0.3407   |
+| Modèle        | MAE (↓)    | RMSE (↓)   | Pearson (↑) | Spearman (↑) |
+|---------------|------------|------------|-------------|--------------|
+| MLP           | 0.5802     | 0.7553     | 0.4544      | 0.4565       |
+| Random Forest | **0.4840** | **0.6744** | **0.4967**  | **0.5505**   |
+| XGBoost       | 0.5551     | 0.7696     | 0.2394      | 0.3407       |
 
 - Code source : [train_models_exp_4.py](py_scripts/train_models_exp_4.py)  
 - Résultats : [exp4_results.csv](data/exp4_results.csv)
@@ -335,13 +334,13 @@ Expérimentation 5 : (Meilleurs résultats actuels) ********
 Données d’entrée :
 (diff_emb_camem_max_pooling_pca) + (X_read) + (X_coref)  
 
-| Modèle        | MAE    | RMSE   | Pearson | Spearman |
-|---------------|--------|--------|---------|----------|
-| MLP           | 0.5934 | 0.7701 | 0.4440  | 0.4411   |
-| MLP (2)       | 0.5599 | 0.6900 | 0.4948  | 0.5408   |
-| Random Forest | 0.4745 | 0.6514 | 0.5576  | 0.6164   |
-| XGBoost       | 0.4960 | 0.6856 | 0.4416  | 0.5131   |
-| XGBoost (2)   | 0.4589 | 0.6237 | 0.6166  | 0.6395   |
+| Modèle        | MAE (↓)    | RMSE (↓)   | Pearson (↑) | Spearman (↑) |
+|---------------|------------|------------|-------------|--------------|
+| MLP           | 0.5934     | 0.7701     | 0.4440      | 0.4411       |
+| MLP (2)       | 0.5599     | 0.6900     | 0.4948      | 0.5408       |
+| Random Forest | 0.4745     | 0.6514     | 0.5576      | 0.6164       |
+| XGBoost       | 0.4960     | 0.6856     | 0.4416      | 0.5131       |
+| XGBoost (2)   | **0.4589** | **0.6237** | **0.6166**  | **0.6395**   |
 
 - Code source : [train_models_exp_5.py](py_scripts/train_models_exp_5.py)  
 - Résultats : [exp5_results.csv](data/exp5_results.csv)
