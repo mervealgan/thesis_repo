@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionnaire : Évaluation de la lisibilité</title>
+<style>
+    body {
+        font-family: Arial;
+        max-width: 800px;
+        margin: auto;
+        padding: 1.5em;
+        background: #fafafa;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    .pair {
+        padding: 1.5em;
+        margin: 2em 0;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .meta {
+    margin-bottom: 3em;
+    padding: 1.2em 1.5em;
+    background: #fdfdfd;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 0 0 1px #eee;
+    }
+
+    .meta label {
+        display: block;
+        margin-bottom: 0.2em;
+        font-weight: 500;
+        font-size: 0.95em;
+        color: #333;
+    }
+
+    .meta input,
+    .meta select {
+        width: 100%;
+        padding: 0.35em 0.6em;
+        font-size: 0.92em;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 0.8em;
+        box-sizing: border-box;
+        background-color: #fff;
+    }
+
+
+    label {
+        font-weight: bold;
+    }
+
+    button {
+        margin: 2em auto;
+        display: block;
+        padding: 1em 2em;
+        font-size: 1.05em;
+    }
+
+
+    button:hover {
+        background-color: #345fb0;
+    }
+
+    .rating-block {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+        margin-top: 0.8em;
+        padding: 0.8em 1.2em;
+        border-radius: 8px;
+        background: #fdfdfd;
+        box-shadow: inset 0 0 0 1px #ddd;
+    }
+
+
+    .rating-block:focus-within {
+        box-shadow: inset 0 0 0 2px #2ecc71;
+    }
+
+    .rating-block label {
+        font-size: 0.92em;
+        font-weight: normal;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        white-space: normal;
+        line-height: 1.4;
+    }
+
+
+
+    .rating-block input[type="radio"] {
+        accent-color: #2ecc71;
+        transform: scale(1.1);
+    }
+
+    .pair {
+    margin-bottom: 3em;
+    padding: 1.5em;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e4e4e4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+
+    .original-label,
+    .simplified-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.2em;
+        color: #333;
+    }
+
+    .original-text,
+    .simplified-text {
+        font-weight: normal;
+        font-size: 1em;
+        color: #444;
+        line-height: 1.5;
+        margin-bottom: 1.2em;
+        padding-left: 0.5em;
+    }
+
+    .question-number {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #888;
+    margin-bottom: 1em;
+    }
+
+
+    .rating-table {
+        overflow-x: auto;
+        margin-top: 1em;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1em;
+        background-color: #fdfdfd;
+    }
+
+    .rating-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.4em;
+        flex-wrap: wrap;
+    }
+
+    .rating-row label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        min-width: 85px;
+        font-size: 0.78em;
+        font-weight: normal;
+        text-align: center;
+        color: #333;
+        cursor: pointer;
+        line-height: 1.2;
+    }
+
+
+    .rating-row input[type="radio"] {
+        accent-color: #2ecc71;
+        transform: scale(1.05);
+        margin-bottom: 0.3em;
+    }
+
+
+    .pair {
+    display: none;
+    }
+
+    .pair.visible {
+    display: block;
+    }
+
+
+    .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    margin-top: 2em;
+    }
+
+    .button-row button {
+        padding: 1em 2em;
+        font-size: 1.05em;
+        border: none;
+        background-color: #3c7edb;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .button-row button:hover {
+        background-color: #345fb0;
+    }
+
+
+
+</style>
+
+</head>
+<body>
+    <h1>Questionnaire : Évaluation de la lisibilité</h1>
+    <p>Est-ce que la phrase est plus facile ou plus difficile à lire après simplification ?</p>
+
+    <form action="/submit" method="POST">
+        <input type="hidden" name="email" value="{{ email }}">
+        <input type="hidden" name="age" value="{{ age }}">
+        <input type="hidden" name="level" value="{{ level }}">
+
+        {% for pair in pairs %}
+            <div class="pair" data-index="{{ loop.index }}">
+                <div class="question-number">Question {{ loop.index }} sur {{ pairs|length }}</div>
+                <div class="original-label">Originale :</div>
+                <div class="original-text">{{ pair.original }}</div>
+
+                <div class="simplified-label">Simplifiée :</div>
+                <div class="simplified-text">{{ pair.simplified }}</div>
+
+                <div class="rating-table">
+                    <div class="rating-row">
+                        {% for label, value in likert %}
+                            <label>
+                                <input type="radio" name="rating_{{ pair.id }}" value="{{ value }}">
+                                <span>{{ label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+
+        <div class="button-row">
+            <button type="button" id="voir-plus">Noter encore des phrases</button>
+            <button type="submit">Finaliser l’évaluation</button>
+        </div>
+
+
+    </form>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const allPairs = document.querySelectorAll(".pair");
+        const voirPlusBtn = document.getElementById("voir-plus");
+        let visibleCount = 30;
+
+        function updateVisibility() {
+            allPairs.forEach((pair, i) => {
+                if (i < visibleCount) {
+                    pair.classList.add("visible");
+                }
+            });
+            if (visibleCount >= allPairs.length) {
+                voirPlusBtn.style.display = "none";
+            }
+        }
+
+        voirPlusBtn.addEventListener("click", function () {
+            visibleCount += 30;
+            updateVisibility();
+        });
+
+        updateVisibility();
+    });
+    </script>
+
+
+</body>
+</html>

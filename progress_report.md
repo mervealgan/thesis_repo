@@ -1,6 +1,6 @@
 ====================================================
 RAPPORT DE PROGRÈS DU MÉMOIRE – MERVE ALGAN
-Mis à jour le : 16 avril 2025
+Mis à jour le : 29 avril 2025
 ====================================================
 
 
@@ -124,7 +124,67 @@ def count_syllables_fr(word):
 ENQUÊTE
 ----------------------------------------------------
 
-### 1. Première enquête 
+### 1. Nouvelle enquête (avril 2025 — version actuelle)
+
+- Plateforme : site web personnalisé (Flask + SQLite) 
+  - Lien : (https://lisibilite.pythonanywhere.com/)
+  - Code : [survey_app_v2.py](py_scripts/survey_app_v2.py)
+    - HTML Codes : 
+    - [welcome.html](py_scripts/welcome.html)
+    - [survey_v2.html](py_scripts/survey_v2.html)
+
+- Fonctionnement
+  - L'utilisateur entre son adresse e-mail, son âge et son niveau de français (C1, C2 ou natif)
+  - Le système affiche jusqu’à 250 paires de phrases, par blocs de 30 avec un bouton “Noter encore des phrases”
+  - Une seule question par paire :  
+    - *Est-ce que la phrase est plus facile ou plus difficile à lire après simplification ?*  
+    - Réponse sur une échelle Likert à 7 points (de -3 à +3) : 
+    ```python
+    # survey_app_v2.py
+    likert = [
+    ("Beaucoup plus difficile", -3),
+    ("Plus difficile", -2),
+    ("Un peu plus difficile", -1),
+    ("Pareil", 0),
+    ("Un peu plus facile", 1),
+    ("Plus facile", 2),
+    ("Beaucoup plus facile", 3),
+    ]
+    ```
+    
+  - L’utilisateur peut s’arrêter à tout moment en soumettant le formulaire ; il n’est pas obligatoire de répondre à toutes les questions.
+
+- Contrôle
+  - Les paires déjà annotées par un utilisateur ne sont plus proposées lorsqu’il accède à nouveau au formulaire avec la même adresse e-mail. Cela permet d’éviter les doublons et de s’assurer que chaque participant ne vote qu’une seule fois par paire.
+  
+  ```python
+  # survey_app_v2.py
+  c.execute("""
+      SELECT id, original, simplified
+      FROM allsents_v2
+      WHERE votes < 5 AND id NOT IN (
+          SELECT pair_id FROM voter_log WHERE email = ?
+      )
+      ORDER BY id ASC
+  """, (email,))
+  ```
+
+  - Chaque paire est montrée à un maximum de 5 participants (`votes < 5`), afin d’éviter un déséquilibre dans les annotations (par exemple, 10 votes pour une paire et seulement 2 pour une autre)
+  - Les données collectées :
+    - `email`, `age`, `niveau`, `id de la paire`, `réponse Likert`, `horodatage`
+    - Sauvegardées dans deux tables : `ratings_v2` (contenu) et `voter_log` (contrôle)
+
+- Améliorations par rapport à la version précédente
+  - Un guide plus clair avec définition de la lisibilité et exemples
+  - Limitation des réponses redondantes via suivi par adresse e-mail
+  - Au lieu de noter chaque phrase séparément, l’utilisateur donne maintenant une seule réponse par paire, pour dire si la version simplifiée semble plus facile ou plus difficile à lire que l’originale.
+
+- Réflexions
+  - Le seuil de 5 votes par paire est-il suffisant pour l’évaluation finale ?
+
+
+
+### 2. Ancienne enquête (préliminaire, abandonnée)
 
 - Plateforme : site web personnalisé (Flask + SQLite)
   - Lien : https://evaluerlisibilite.pythonanywhere.com/
@@ -157,38 +217,6 @@ ENQUÊTE
 # py_scripts/survey_app.py
 c.execute("SELECT id, sentences, simplified FROM allsents WHERE votes < 5 ORDER BY RANDOM() LIMIT 20")
 ```
-
-  
-### 2. Nouvelle enquête (à décider)
-
-- Améliorations prévues :
-  - Identifiant pseudonyme ou unique pour chaque participant
-  - Question fermée sur le niveau/langue maternelle
-  - Instructions plus claires
-  - Choix de l’échelle encore à étudier (5 ou 7 points)
-
-- Format envisagé : 
-  - Option 1 : 1 seule question par paire : 
-    "Pensez-vous que la phrase est devenue plus facile ou plus difficile à lire ?"
-    - **Option 1.a : Échelle 7 points :  (`-3` à `+3`) - Option actuellement privilégiée**
-      - Beaucoup plus facile – Plus facile – Un peu plus facile – Pareil – Un peu plus difficile – Plus difficile – Beaucoup plus difficile
-    - Option 1.b : Échelle 5 points:  (`-2` à `+2`)
-      - Beaucoup plus facile – Plus facile – Pareil – Plus difficile – Beaucoup plus difficile
-
-  - Option 2 : 2 questions séparées (une par phrase) :
-    "Veuillez évaluer la lisibilité de chaque phrase ci-dessous."
-    - Option 2.a : Échelle 7 points : (`1` à `7`)  
-        - 1 = Très facile, 2 = Facile, 3 = Assez facile, 4 = Moyenne,  
-      5 = Assez difficile, 6 = Difficile, 7 = Très difficile  
-      → Gain de lisibilité est calculé : simplifiée - originale → plage possible : `-6` à `+6`
-    - Option 2.b : Échelle 5 points : (`1` à `5`)  
-        - 1 = Très facile, 2 = Facile, 3 = Moyenne, 4 = Difficile, 5 = Très difficile  
-      → Gain de lisibilité : simplifiée - originale → plage : `-4` à `+4`
-
-- Statut :
-  - L’enquête ne sera lancée qu’une fois tous les éléments suivants validés :  
-    - le pipeline de modélisation est compatible avec les nouvelles annotations,  
-    - la nouvelle version de l’enquête est validée par Mme Todirascu.
 
 
 ----------------------------------------------------
@@ -346,10 +374,6 @@ Données d’entrée :
 - Résultats : [exp5_results.csv](data/exp5_results.csv)
 
 --------
-
-Expérimentation 6 :
-
-— Approche ensemble (en cours)
 
 
 ----------------------------------------------------
