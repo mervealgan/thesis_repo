@@ -1,6 +1,6 @@
 ====================================================
 RAPPORT DE PROGRÈS DU MÉMOIRE – MERVE ALGAN
-Mis à jour le : 29 avril 2025
+Mis à jour le : 3 mai 2025
 ====================================================
 
 
@@ -31,11 +31,11 @@ CORPUS
    - Élimination des informations non essentielles (30)
    - Élimination des parenthèses et incises (30)
    - Transformation des propositions relatives (30)
-   - Propositions de formes actives au lieu de passives (25)
-   - Propositions de structures positives au lieu de négatives (25)
-   - Substitution de mots complexes (25)
-   - Simplification des clauses complexes (25)
-   - Omission des mots redondants (25)
+   - Propositions de formes actives au lieu de passives (26)
+   - Propositions de structures positives au lieu de négatives (26)
+   - Substitution de mots complexes (26)
+   - Simplification des clauses complexes (26)
+   - Omission des mots redondants (26)
 
 - Fichiers : [sentence_pairs.csv](data/sentence_pairs.csv)
 
