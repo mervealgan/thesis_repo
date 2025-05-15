@@ -6,11 +6,12 @@
     <style>
     body {
         font-family: Arial;
-        max-width: 800px;
+		max-width: 90%;
+        width: 800px;
         margin: auto;
         padding: 1.5em;
         background: #fafafa;
-		font-size: 15px;
+		font-size: 16px;
         line-height: 1.55;
         color: #333;
     }
@@ -87,7 +88,7 @@
 
     a {
         font-size: 0.85em;
-        color: #3c7edb;
+        color: green;
         text-decoration: none;
         margin-left: 0.5em;
     }
@@ -102,10 +103,12 @@
 	margin-top: 1em;
 	font-size: 0.93em;
 	background: #fdfdfd;
+	max-width: 800px;
+	overflow-x: auto; 
     }
 
     th, td {
-        padding: 0.6em;
+        padding: 0.5em;
         border: 1px solid #ddd;
     }
 
@@ -114,10 +117,32 @@
     }
 
 	table th:first-child {
-    width: 15%;
-}
+    width: 50%;
+	}
 
+	table, th, td {
+	font-family: inherit;
 
+	}
+	
+		input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-top: 1.5em;
+    }
+    
+    .checkbox-label {
+        font-weight: normal;
+        display: inline;
+        margin: 0;
+
+	
     </style>
 </head>
 
@@ -136,159 +161,81 @@
 
 	<h4>Qu’est-ce que la lisibilité ?</h4>
 
-	<p>La lisibilité est définie comme « la facilité de lecture des mots et des phrases » (Hargis et al., 1998). Elle résulte de plusieurs facteurs textuels, parmi lesquels :</p>
+	<p>La lisibilité est définie comme « la facilité de lecture des mots et des phrases »<a href="https://dl.acm.org/doi/pdf/10.1145/344599.344634" target="_blank">(Hargis et al., 1998)</a>. Elle repose sur plusieurs aspects, notamment&nbsp;:</p>
 
-	<ul>
+<p><strong>1. Vocabulaire simple</strong></p>
+<p>Utilisation de mots courants et familiers, faciles à comprendre pour le lecteur.</p>
+<ul>
+    <li>Préférer des mots courts et fréquents</li>
+    <li>Éviter le jargon technique ou spécialisé sans explication</li>
+</ul>
 
-	<li>la simplicité du vocabulaire, par exemple :
-    <p></p>
+<p><strong>2. Structure syntaxique claire</strong></p>
+<p>Organisation des phrases de manière simple et directe :</p>
+<ul>
+    <li>Privilégier les phrases courtes plutôt que longues</li>
+    <li>Utiliser la forme active («&nbsp;Le chat mange la souris&nbsp;») plutôt que passive («&nbsp;La souris est mangée par le chat&nbsp;»)</li>
+    <li>Éviter les négations multiples ou complexes («&nbsp;Jamais personne n'a dit que ce n'était pas possible&nbsp;»)</li>
+</ul>
 
-	<table>
-		<thead>
-			<tr>
-			    <th>Exemple 1</th>
-				<th>Phrase</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-			    <td>Originale</td>
-				<td>L'atmosphère enveloppe la Terre.</td>
-			</tr>
-			<tr>
-			    <td>Plus lisible</td>
-				<td>L'atmosphère couvre la terre.</td>
-			</tr>
-			<td colspan="2" style="text-align:center; font-size: 0.85em; color: #555;">
-    Exemple extrait du corpus ALECTOR<a href="https://corpusalector.huma-num.fr/faces/team.xhtml" target="_blank" style="color:#3c7edb;">(ANR Alector)</a> (texte « La lumière terrestre », original issu de la Bibliothèque de Travail Junior).
-			</td>
-		</tbody>
-	</table>
+<p><strong>3. Organisation logique des idées</strong></p>
+<p>Présentation structurée et ordonnée de l'information&nbsp;:</p>
+<ul>
+    <li>Une seule idée principale par phrase</li>
+    <li>Division des phrases longues qui contiennent plusieurs idées</li>
+    <li>Progression claire entre les idées</li>
+</ul>
 
-	<p style="font-size:0.92em; margin-top:0.5em;">Ici, le mot "enveloppe" a été remplacé par "couvre", un terme plus simple et plus courant.</p>
+<p>Les exemples ci-dessous illustrent ces principes à travers des phrases simplifiées et leur version originale. Ces exemples sont tirés du corpus ALECTOR<a href="https://corpusalector.huma-num.fr/faces/team.xhtml" target="_blank">(ANR Alector Project)</a>.</p>
+	
+	<table> <tr> <th>Exemple 1</th> <th>Plus lisible</th> </tr> <tr> <td>L'atmosphère enveloppe la Terre.</td> <td>L'atmosphère couvre la Terre.</td> </tr> </table>
 
+	<p>&#62; Ici, le mot « enveloppe » est remplacé par « couvre », un terme plus courant.</p>
+	
+	<table> <tr> <th>Exemple 2</th> <th>Plus lisible</th> </tr> <tr> <td>Une partie est composée d'un nombre incalculable de particules très fines de poussières et de microscopiques gouttelettes d'eau.</td> <td>Une partie est faite d'un nombre très grand de particules très fines de poussières et gouttes d'eau très petites.</td> </tr> </table>	
 
-	<table>
-	  <thead>
-		<tr>
-		  <th>Exemple 2</th>
-		  <th>Phrase</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <td>Originale</td>
-		  <td>Une partie est composée d'un nombre incalculable de particules très fines de poussières et de microscopiques gouttelettes d'eau.</td>
-		</tr>
-		<tr>
-		  <td>Plus lisible</td>
-		  <td>Une partie est faite d'un nombre très grand de particules très fines de poussières et gouttes d'eau très petites.</td>
-		</tr>
-		  <td colspan="2" style="text-align:center; font-size: 0.85em; color: #555;">
-    Exemple extrait du corpus ALECTOR<a href="https://corpusalector.huma-num.fr/faces/team.xhtml" target="_blank" style="color:#3c7edb;">(ANR Alector)</a> (texte « La lumière terrestre », original issu de la Bibliothèque de Travail Junior).
-	</td>
-	</tbody>
-	</table>
+	<p>&#62; Les mots rares ou complexes («&nbsp;incalculable&nbsp;», «&nbsp;microscopiques gouttelettes&nbsp;») sont remplacés par des termes plus courants («&nbsp;très grand&nbsp;», «&nbsp;gouttes très petites&nbsp;»). Cela réduit l'effort de compréhension et rend la phrase plus rapide à lire.</p>
+	
+	<table> <tr> <th>Exemple 3</th> <th>Plus lisible</th> </tr> <tr> <td>L'intérieur du moulin était composé d'une pièce toute ronde au rez-de-chaussée.</td> <td>À l'intérieur du moulin, on trouvait en bas une pièce toute ronde.</td> </tr> </table>
 
-	<p style="font-size:0.92em; margin-top:0.5em;">	Les mots rares ou complexes ("incalculable", "microscopiques gouttelettes") sont remplacés par des termes plus courants ("très grand", "gouttes très petites").
-	Cela réduit l'effort de compréhension et rend la phrase plus rapide à lire.</p>
+	<p>&#62; La phrase simplifiée utilise une structure active («&nbsp;on trouvait&nbsp;») au lieu de passive («&nbsp;était composé de&nbsp;»).</p>
 
     <p></p>
-	</li>
+	
+	<table> <tr> <th>Exemple 4</th> <th>Plus lisible</th> </tr> <tr> <td>Jamais quiconque n'aurait imaginé qu'ils puissent se trouver impliquées dans quoi que ce soit d'étrange ou de mystérieux.</td> <td>Personne n'aurait imaginé qu'ils puissent se trouver mêlés dans quelque chose d'étrange ou de mystérieux.</td> </tr> </table>
+	
+	<p>&#62; La phrase originale utilise une double négation («&nbsp;Jamais quiconque&nbsp;») et des expressions complexes («&nbsp;quoi que ce soit&nbsp;») qui la rendent difficile à lire. La version simplifiée est plus claire avec une structure directe utilisant «&nbsp;personne&nbsp;» et «&nbsp;quelque chose&nbsp;».</p>
+	
+	<table> <tr> <th>Exemple 5</th> <th>Plus lisible</th> </tr> <tr> <td>... et puis celle de Poirier-Lamarre, qui était un corsaire, et qui se trouve à Bains-les-Mers, pas loin de l'hôtel Beau-Rivage, où nous avons passé des vacances avec papa et maman, et qu'on voit de la salle à manger, en se penchant, et c'est une chouette statue en fer, ...</td> <td>Et puis celle de Poirier-Lamarre, qui était un pirate. Elle se trouve à Bains-les-Mers, pas loin de l'hôtel Beau-Rivage, où nous avons passé des vacances avec papa et maman. On voyait la statue depuis la salle à manger, en se penchant. C'est une chouette statue en fer...</td> </tr> </table>
 
-
-	<li>la clarté de la structure syntaxique, par exemple :
-    <p></p>
-
-	<table>
-	  <thead>
-		<tr>
-		  <th>Exemple 3</th>
-		  <th>Phrase</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <td>Originale</td>
-		  <td>L'intérieur du moulin était composé d'une pièce toute ronde au rez-de-chaussée.</td>
-		</tr>
-		<tr>
-		  <td>Plus lisible</td>
-		  <td>À l'intérieur du moulin, on trouvait en bas une pièce toute ronde.</td>
-		</tr>
-		  <td colspan="2" style="text-align:center; font-size: 0.85em; color: #555;">
-    Exemple extrait du corpus ALECTOR<a href="https://corpusalector.huma-num.fr/faces/team.xhtml" target="_blank" style="color:#3c7edb;">(ANR Alector)</a> (texte « Les moulins », original issu de la Bibliothèque de Travail Junior).
-	</td>
-	</tbody>
-	</table>
-
-	<p style="font-size:0.92em; margin-top:0.5em;">	La phrase complexe est transformée en une construction plus simple :
-	au lieu de décrire de manière passive ("était composé de"), la version simplifiée utilise une structure active ("on trouvait").
-	Cela améliore la fluidité et facilite la compréhension.</p>
-
-    <p></p>
-
-	</li>
-
-	<li>la cohésion et l'organisation logique des idées. Par exemple :
-
-	<table>
-	  <thead>
-		<tr>
-		  <th>Exemple 4</th>
-		  <th>Phrase</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <td>Originale</td>
-		  <td>... et puis celle de Poirier-Lamarre, qui était un corsaire, et qui se trouve à Bains-les-Mers, pas loin de l'hôtel Beau-Rivage, où nous avons passé des vacances avec papa et maman, et qu'on voit de la salle à manger, en se penchant, et c'est une chouette statue en fer, ...</td>
-		</tr>
-		<tr>
-		  <td>Plus lisible</td>
-		  <td>Et puis celle de Poirier-Lamarre, qui était un pirate. Elle se trouve à Bains-les-Mers, pas loin de l'hôtel Beau-Rivage, où nous avons passé des vacances avec papa et maman. On voyait la statue depuis la salle à manger, en se penchant. C'est une chouette statue en fer...</td>
-		</tr>
-		  <td colspan="2" style="text-align:center; font-size: 0.85em; color: #555;">
-    Exemple extrait du corpus ALECTOR<a href="https://corpusalector.huma-num.fr/faces/team.xhtml" target="_blank" style="color:#3c7edb;">(ANR Alector)</a>, texte « Le petit Nicolas » (original de Goscinny et Sempé).
-	</td>
-	</tbody>
-	</table>
-
-	<p style="font-size:0.92em; margin-top:0.5em;">Ici, une phrase très longue a été découpée en plusieurs phrases plus courtes et mieux organisées pour faciliter la compréhension.</p>
-
-	</li>
-
-	</ul>
-
-
+	<p>&#62; Ici, une phrase très longue a été découpée en plusieurs phrases plus courtes et claires.</p>
+	
 	<h4>Ce que vous allez faire</h4>
-
-	<p>Vous verrez une série de paires de phrases : la version originale et sa version simplifiée. Pour chaque paire, vous indiquerez si la phrase simplifiée vous paraît plus facile ou plus difficile à lire que l’originale. Un bloc de 30 paires prend environ 5 à 10 minutes à compléter.</p>
-
-	<p>Lors de l’évaluation, vous pouvez prendre en compte les éléments suivants :</p>
+	<p>Vous verrez une série de paires de phrases&nbsp;: une version originale et une version simplifiée. Nous vous invitons à évaluer si la version simplifiée est plus facile ou plus difficile à lire par rapport à l'originale.</p>
+	<p>Chaque bloc de 30 paires prend environ 5 à 10 minutes.</p>
+	<p>Lors de l’évaluation, vous pouvez prendre en compte les éléments suivants&nbsp;:</p>
 	<ul>
 	<li>La phrase simplifiée est-elle plus facile à comprendre ?</li>
 	<li>Le vocabulaire est-il plus simple ?</li>
 	<li>La phrase est-elle plus fluide et agréable à lire ?</li>
 	</ul>
 
-	<p><strong>Il n’y a pas de bonne ou de mauvaise réponse</strong> : nous nous intéressons à votre perception personnelle en tant que lecteur ou lectrice.</p>
+	<p><strong>Il n’y a pas de bonne ou de mauvaise réponse</strong>&nbsp;: nous nous intéressons à votre perception personnelle en tant que lecteur ou lectrice.</p>
 
-	<p>Chaque session affiche 30 paires à la fois, avec la possibilité d’en afficher davantage si vous le souhaitez. Il n’est pas nécessaire de répondre à toutes les paires pour soumettre vos réponses.</p>
+	<p>Chaque session affiche 30 paires à la fois, avec la possibilité d’en afficher davantage si vous le souhaitez. Il n’est pas nécessaire de répondre à toutes les paires pour soumettre vos réponses.</p>	
+		
+<h4>Données et confidentialité</h4>
 
-	<h4>Données et confidentialité</h4>
+<p>Dans le cadre de cette étude :</p>
+<ul>
+    <li>Votre adresse email est collectée uniquement pour éviter les participations multiples.</li>
+    <li>Votre email ne sera jamais partagé avec des tiers.</li>
+    <li>Votre email sera supprimé de notre base de données après la fin de l'étude.</li>
+    <li>Toutes les analyses seront réalisées sur des données anonymisées.</li>
+</ul>
 
-	<p>Votre adresse mail est demandée uniquement pour éviter les doublons de participation. Elle ne sera ni publiée ni utilisée à d’autres fins.
-	Toutes les autres réponses sont anonymes, et les données seront utilisées exclusivement à des fins de recherche.</p>
-
-	<p>Après avoir soumis, vous pouvez revenir à tout moment avec la <strong>même adresse e-mail</strong> pour continuer l’évaluation sur de nouvelles paires non encore vues.</p>
-
-
-	<h4>Consentement</h4>
-
-	<p>En continuant, vous confirmez avoir compris le but de cette étude et y participer de manière volontaire. Cliquez sur « Commencer l’évaluation » pour débuter le questionnaire.</p>
-
-
+<p>En cochant la case de consentement ci-dessous, vous acceptez ces conditions d'utilisation de vos données.</p>		
+		
     </div>
 
     <form method="POST">
@@ -307,9 +254,22 @@
             <option value="C2">C2</option>
             <option value="Natif">Natif</option>
         </select>
+	
 
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="consent" name="consent" required>
+            <label for="consent" class="checkbox-label">
+                J'accepte que mon adresse email soit collectée uniquement pour éviter les doublons de participation, qu'elle soit traitée de manière confidentielle et supprimée à la fin de l'étude.
+            </label>
+        </div>
+
+
+	
         <button type="submit">Commencer l’évaluation</button>
     </form>
+
+
 
 </body>
 
